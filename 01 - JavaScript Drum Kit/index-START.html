@@ -58,6 +58,92 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  
+    function removeTransition(e) {
+
+        if (e.propertyName !== 'transform') return; // skip it if not a transform
+
+        // look up [ this ] indicator. 
+        // This line of code removes the class 'playing' from
+        // the elements we chose
+        this.classList.remove('playing');
+      }
+
+
+
+
+  function playSound(e) {
+
+    // research Attribute selector in CSS or JS AND ESX Template strings
+
+    // NOTE: data-key is a custom data attribute. 
+    // Syntax: document.querySelector(`element[attribute=value]`)
+    // Backticks are “extended functionality” quotes. 
+    // They allow us to embed variables and expressions into a string by wrapping them in ${…}
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+    
+    // Tested with code below
+    //console.log(audio);
+
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
+    // code below does the same thing because you can use a class or an element
+    //const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+
+
+    // Stops the function from running if set keys aren't hit
+    if (!audio) return;
+    
+
+    // rewinds audio file to start from beginning
+    // at every "event", meaning at every (keydown)
+    audio.currentTime = 0; 
+
+    // .play() is a built in function, used here to play
+    // our 'audio' elemnts in the html file
+    audio.play();
+
+    // Here, I ADDED class 'playing' to all elements selected in 'key' variable
+    // It's key to note that this class already exists in our 
+    // style.css file, with the styles we want to use.
+
+    // We want it here in the javascript so we can turn it on or off 
+    // whenever we want to.
+    key.classList.add('playing');
+
+  }
+    
+
+
+  // using addEventListener to "Listen" to the window for
+  // a 'keydown' event, and to call the function playSound, when that happens.
+  window.addEventListener('keydown', playSound);
+  
+  // Selecting all elements with the class 'key'
+  const keys = document.querySelectorAll('.key');
+
+
+  // keys = variable we just created,
+  // containing all delements in our document with
+  // the class '.key'
+
+  //.forEach is a built in function that is 
+  // able to access each element in a list(NodeList or Array)
+
+  // .forEach(KEY...) - key is our one parameter. Allowed to
+  // omit parentheses because there is only one. Also don't have to
+  // include a function name [ think of function()... ]
+
+  // after the => arrow goes what you want the function to do or return.
+  // addEventListener sets up a function to be called when 
+  // a specific event is delivered to the target.
+
+  // in this case, target = key class elements, 
+  // event = transition end
+  // and function is a function I defined called removeTransition
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+
+
 
 </script>
 
